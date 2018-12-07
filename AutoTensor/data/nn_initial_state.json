@@ -1,0 +1,52 @@
+{
+    "class_name": "Sequential",
+    "keras_version": "2.1.6-tf",
+    "config": {
+        "layers": [
+            {
+                "class_name": "Dense",
+                "config": {
+                    "bias_regularizer": null,
+                    "name": "dense_17",
+                    "bias_initializer": { "class_name": "Zeros", "config": { "dtype": "float32" } },
+                    "trainable": true,
+                    "activity_regularizer": null,
+                    "kernel_constraint": null,
+                    "kernel_regularizer": null,
+                    "kernel_initializer": {
+                        "class_name": "GlorotUniform",
+                        "config": { "dtype": "float32", "seed": null }
+                    },
+                    "dtype": null,
+                    "units": 64,
+                    "activation": "relu",
+                    "use_bias": true,
+                    "bias_constraint": null
+                }
+            },
+            {
+                "class_name": "Dense",
+                "config": {
+                    "bias_regularizer": null,
+                    "name": "dense_18",
+                    "bias_initializer": { "class_name": "Zeros", "config": { "dtype": "float32" } },
+                    "trainable": true,
+                    "activity_regularizer": null,
+                    "kernel_constraint": null,
+                    "kernel_regularizer": null,
+                    "kernel_initializer": {
+                        "class_name": "GlorotUniform",
+                        "config": { "dtype": "float32", "seed": null }
+                    },
+                    "dtype": null,
+                    "units": 10,
+                    "activation": "softmax",
+                    "use_bias": true,
+                    "bias_constraint": null
+                }
+            }
+        ],
+        "name": "sequential_3"
+    },
+    "backend": "tensorflow"
+}
