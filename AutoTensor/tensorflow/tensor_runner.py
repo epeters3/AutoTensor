@@ -13,6 +13,7 @@ def evaluate_model(config, data, num_classes, verbose):
         monitor='val_acc', patience=config["patience"])
 
     model = model_builder(config, num_classes)
+    print("model compiled. Now fitting...")
 
     history = model.fit(
         data.train_data,

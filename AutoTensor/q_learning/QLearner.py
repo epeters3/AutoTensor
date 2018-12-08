@@ -44,7 +44,7 @@ class QLearner:
         Updates the q values for the current state and all its possible actions in the learner's q values table
         """
         for action_i, action in enumerate(self.actions):
-            print("Now evaluating action {}".format(action))
+            print("\nNow evaluating action {}".format(action))
             curr_q = self.q_vals[state_i, action_i]
             curr_state = self.states[state_i]
             new_state = self.get_state(curr_state, action)

@@ -11,7 +11,8 @@ This project was inspired by these two bodies of work:
 
 ## Brainstorming - DELETE ME
 
-TODO: - the ActionBuilder.\_\_add_options_actions method is not changing the option like it should. Its changing it to an incorrect value most of the time.
+TODO: Add support for layer params, including dropout rate, and for adding and removing layers
+IDEA: Have layer param actions change all of that type
 
 > "To find an appropriate model size, it's best to start with relatively few layers and parameters, then begin increasing the size of the layers or adding new layers until you see diminishing returns on the validation loss." - Tensorflow Documentation
 
