@@ -11,6 +11,8 @@ This project was inspired by these two bodies of work:
 
 ## Brainstorming - DELETE ME
 
+TODO: - the ActionBuilder.\_\_add_options_actions method is not changing the option like it should. Its changing it to an incorrect value most of the time.
+
 > "To find an appropriate model size, it's best to start with relatively few layers and parameters, then begin increasing the size of the layers or adding new layers until you see diminishing returns on the validation loss." - Tensorflow Documentation
 
 **Possible states (TF Keras NN Hyperparameters)**:

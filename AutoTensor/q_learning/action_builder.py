@@ -15,7 +15,8 @@ class ActionBuilder:
     def __add_options_actions(self, actions, action_path, node):
         for option in node.options:
             action_name = self.make_name(["set", node.name, "to", option])
-            actions[action_name] = Action(action_path, lambda _: option)
+            actions[action_name] = Action(
+                action_path, lambda _, opt=option: opt)
 
     def __add_list_actions(self, actions, action_path, node):
         pass
