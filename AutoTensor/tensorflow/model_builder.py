@@ -39,11 +39,13 @@ def instantiate_config(config, class_map):
             return settings
 
 
-def model_builder(config):
+def model_builder(config, num_classes):
     class_map = scheme_manager.get_class_map()
     settings = instantiate_config(config, class_map)
 
     settings["compile_args"]["metrics"] = ["accuracy"]
-    model = keras.Sequential(settings["layers"])
+    model = keras.Sequential(
+        settings["layers"] +
+        [keras.layers.Dense(num_classes, activation=tf.nn.softmax)])
     model.compile(**settings["compile_args"])
     return model

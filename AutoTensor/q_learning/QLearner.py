@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 
 class QLearner:
@@ -8,7 +9,8 @@ class QLearner:
                  get_state=lambda state, action: "",
                  get_reward=lambda state: -1,
                  starting_state="",
-                 actions=[]):
+                 actions=[],
+                 report_file_path=""):
         # get_reward is a function that takes in a state
         # and returns that state's reward.
         self.get_reward = get_reward
@@ -27,6 +29,7 @@ class QLearner:
         reward_of_starting_state = self.get_reward(starting_state)
         self.states = np.array([starting_state])
         self.rewards = np.array([reward_of_starting_state])
+        self.report_file_path = report_file_path
 
     def __print_q_vals(self):
         to_print = np.append(
@@ -99,4 +102,10 @@ class QLearner:
         print("Best Q-value: {}".format(curr_best_q))
         print("Best reward: {}".format(self.rewards[curr_state_i]))
         print("Best state:\n{}".format(self.states[curr_state_i]))
+        with open(self.report_file_path, "w") as f:
+            results = [{
+                "model_config": config,
+                "test_acc": reward
+            } for config, reward in zip(self.states, self.rewards)]
+            json.dump(results, f)
         return self.states[curr_state_i]

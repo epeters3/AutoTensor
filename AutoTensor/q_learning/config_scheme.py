@@ -19,14 +19,14 @@ class OptionsNode:
 
 class ValueNode:
     actions = {
-        "increment": lambda x: x + 1,
-        "decrement": lambda x: x - 1,
-        "increment5": lambda x: x + 5,
-        "decrement5": lambda x: x - 5,
-        "double": lambda x: x * 2,
-        "halve": lambda x: x / 2,
-        "int_double": lambda x: int(x * 2),
-        "int_halve": lambda x: int(x / 2)
+        "increment": lambda x: max(0, x + 1),
+        "decrement": lambda x: max(0, x - 1),
+        "increment5": lambda x: max(0, x + 5),
+        "decrement5": lambda x: max(0, x - 5),
+        "double": lambda x: max(0, x * 2),
+        "halve": lambda x: max(0, x / 2),
+        "int_double": lambda x: max(0, int(x * 2)),
+        "int_halve": lambda x: max(0, int(x / 2))
     }
 
     def __init__(self, name, action_types, default):
@@ -95,9 +95,9 @@ class SchemeManager:
                 ])
             }),
         "patience":
-        ValueNode("patience", ["increment5", "decrement5"], 20),
+        ValueNode("patience", ["increment", "decrement"], 1),
         "max_epochs":
-        ValueNode("max_epochs", ["int_double", "int_halve"], 1000)
+        ValueNode("max_epochs", ["int_double", "int_halve"], 100)
     }
 
     def __get_class_map(self, a_scheme):

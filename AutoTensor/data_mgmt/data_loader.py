@@ -62,7 +62,10 @@ def split_dataset(data, test_ratio, val_ratio):
 def get_arff_dataset(file_path, test_ratio, val_ratio):
     data, data_with_meta = load_arff(file_path)
     data = split_dataset(data, test_ratio, val_ratio)
-    return data, data_with_meta
+    num_classes = len(data_with_meta["attributes"][-1][1])
+    print("arff dataset meta data:\n{}".format(data_with_meta["attributes"]))
+    print("num_classes: {}".format(num_classes))
+    return data, num_classes
 
 
 def get_my_arff():

@@ -35,9 +35,9 @@ def compose_get_state():
     return get_state
 
 
-def compose_get_reward(data):
+def compose_get_reward(data, num_classes):
     def get_reward(state):
-        reward = evaluate_model(state, data, 0)
+        reward = evaluate_model(state, data, num_classes, 0)
         print("Got reward of {} for state\n{}".format(reward, state))
         return reward
 

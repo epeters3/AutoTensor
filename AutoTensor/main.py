@@ -10,10 +10,10 @@ from AutoTensor.data_mgmt.data_loader import get_my_arff, load_json_str
 
 
 def find_optimal_model(get_dataset):
-    data, meta = get_dataset()
+    data, num_classes = get_dataset()
 
     get_state = compose_get_state()
-    get_reward = compose_get_reward(data)
+    get_reward = compose_get_reward(data, num_classes)
 
     # acc = get_reward(starting_state)
     # print(
@@ -26,7 +26,8 @@ def find_optimal_model(get_dataset):
         get_state=get_state,
         get_reward=get_reward,
         starting_state=starting_state,
-        actions=actions)
+        actions=actions,
+        report_file_path="AutoTensor/reports/q-learner-results.json")
 
     qlearner.find_state_with_best_q()
 

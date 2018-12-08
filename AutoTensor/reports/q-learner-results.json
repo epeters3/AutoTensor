@@ -1,0 +1,110 @@
+[
+    {
+        "test_acc": 0.27272728085517883,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "nadam" },
+            "patience": 2,
+            "max_epochs": 1000
+        }
+    },
+    {
+        "test_acc": 0.1818181872367859,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "adamax" },
+            "max_epochs": 1000,
+            "patience": 2
+        }
+    },
+    {
+        "test_acc": 0.13636364042758942,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "cosine_proximity", "optimizer": "nadam" },
+            "max_epochs": 1000,
+            "patience": 2
+        }
+    },
+    {
+        "test_acc": 0.6363636255264282,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "nadam" },
+            "max_epochs": 1000,
+            "patience": 7
+        }
+    },
+    {
+        "test_acc": 1.0,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "nadam" },
+            "max_epochs": 500,
+            "patience": 2
+        }
+    },
+    {
+        "test_acc": 0.0,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "nadam" },
+            "max_epochs": 1000,
+            "patience": 0
+        }
+    },
+    {
+        "test_acc": 0.6363636255264282,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "nadam" },
+            "max_epochs": 2000,
+            "patience": 2
+        }
+    },
+    {
+        "test_acc": 0.7272727489471436,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "cosine_proximity", "optimizer": "adamax" },
+            "patience": 2,
+            "max_epochs": 1000
+        }
+    },
+    {
+        "test_acc": 0.09090909361839294,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "adamax" },
+            "patience": 7,
+            "max_epochs": 1000
+        }
+    },
+    {
+        "test_acc": 0.0,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "adamax" },
+            "patience": 2,
+            "max_epochs": 500
+        }
+    },
+    {
+        "test_acc": 1.0,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "adamax" },
+            "patience": 0,
+            "max_epochs": 1000
+        }
+    },
+    {
+        "test_acc": 0.40909090638160706,
+        "model_config": {
+            "layers": [{ "class_name": "dense", "args": { "units": 32, "activation": "sigmoid" } }],
+            "compile_args": { "loss": "categorical_crossentropy", "optimizer": "adamax" },
+            "patience": 2,
+            "max_epochs": 2000
+        }
+    }
+]
