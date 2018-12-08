@@ -1,7 +1,15 @@
 import json
+from collections import namedtuple
 
 import arff
 import numpy as np
+
+from AutoTensor.data_mgmt.data_shaper import normalize
+
+Data = namedtuple("Data", [
+    "train_data", "train_labels", "val_data", "val_labels", "test_data",
+    "test_labels"
+])
 
 
 def load_json_str(file_path):
@@ -23,7 +31,7 @@ def split_last_col(data):
     return data, labels
 
 
-def split_train_test(data, test_ratio, val_ratio):
+def split_dataset(data, test_ratio, val_ratio):
     if test_ratio < 0 or test_ratio > 1 or val_ratio < 0 or val_ratio > 1:
         raise Exception("train_ratio must be between 0 and 1")
     if test_ratio + val_ratio > 1:
@@ -35,22 +43,26 @@ def split_train_test(data, test_ratio, val_ratio):
 
     test_end = int(num_instances * test_ratio)
     val_end = test_end + int(num_instances * val_ratio)
-    test = data[:test_end, :]
-    val = data[test_end:val_end, :]
-    train = data[val_end:, :]
+    data, labels = split_last_col(data)
+    data = normalize(data)
 
-    train_data, train_labels = split_last_col(train)
-    test_data, test_labels = split_last_col(test)
-    val_data, val_labels = split_last_col(val)
+    test_data = data[:test_end, :]
+    test_labels = labels[:test_end]
 
-    return train_data, train_labels, val_data, val_labels, test_data, test_labels
+    val_data = data[test_end:val_end, :]
+    val_labels = labels[test_end:val_end]
+
+    train_data = data[val_end:, :]
+    train_labels = labels[val_end:]
+
+    return Data(train_data, train_labels, val_data, val_labels, test_data,
+                test_labels)
 
 
 def get_arff_dataset(file_path, test_ratio, val_ratio):
     data, data_with_meta = load_arff(file_path)
-    train_data, train_labels, val_data, val_labels, test_data, test_labels = split_train_test(
-        data, test_ratio, val_ratio)
-    return train_data, train_labels, val_data, val_labels, test_data, test_labels, data_with_meta
+    data = split_dataset(data, test_ratio, val_ratio)
+    return data, data_with_meta
 
 
 def get_my_arff():

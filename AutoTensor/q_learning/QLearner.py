@@ -28,11 +28,20 @@ class QLearner:
         self.states = np.array([starting_state])
         self.rewards = np.array([reward_of_starting_state])
 
+    def __print_q_vals(self):
+        to_print = np.append(
+            np.reshape(self.actions, (1, len(self.actions))),
+            self.q_vals,
+            axis=0)
+        print("==== Q Values ====")
+        print(to_print)
+
     def __update_q(self, state_i):
         """
         Updates the q values for the current state and all its possible actions in the learner's q values table
         """
         for action_i, action in enumerate(self.actions):
+            print("Now evaluating action {}".format(action))
             curr_q = self.q_vals[state_i, action_i]
             curr_state = self.states[state_i]
             new_state = self.get_state(curr_state, action)
@@ -40,9 +49,11 @@ class QLearner:
             reward = self.get_reward(new_state)
             if new_state not in self.states:
                 # Add this new found state to our records
-                self.q_vals = np.append(self.q_vals,
-                                        np.zeros((1, len(self.actions))))
+                self.q_vals = np.append(
+                    self.q_vals, np.zeros((1, len(self.actions))), axis=0)
+
                 self.states = np.append(self.states, new_state)
+                self.rewards = np.append(self.rewards, reward)
             # Find the best future action to take from new state
             new_state_i = np.where(self.states == new_state)
             best_action_i = np.argmax(self.q_vals[new_state_i, :])
@@ -65,22 +76,24 @@ class QLearner:
         new_best_q = np.max(self.q_vals[curr_state_i, :])
 
         while new_best_q > curr_best_q:
-            print("====New iteration of QLearner====")
-            print("q_vals:\n{}".format(self.q_vals))
-            print("states and rewards:\n{}".format(
-                zip(self.states, self.rewards)))
+            print("======== New iteration of QLearner ========")
+            self.__print_q_vals()
+            print("states:\n{}\nrewards:\n{}".format(self.states,
+                                                     self.rewards))
 
             # Update the q values for the current state (explores all actions)
             self.__update_q(curr_state_i)
             # Find the next optimal state
-            best_action = np.argmax(self.q_vals[curr_state_i])
+            best_action_i = np.argmax(self.q_vals[curr_state_i])
+            best_action = self.actions[best_action_i]
             curr_state = self.states[curr_state_i]
             next_state = self.get_state(curr_state, best_action)
             # Update the loop values for the next iteration
             curr_best_q = new_best_q
             new_best_q = np.max(self.q_vals[curr_state_i])
             if new_best_q > curr_best_q:
-                curr_state_i = np.where(self.states == next_state)
+                curr_state_i = np.asscalar(
+                    np.argwhere(self.states == next_state)[0])
 
         print("========Finished========")
         print("Best Q-value: {}".format(curr_best_q))
