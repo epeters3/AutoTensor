@@ -17,14 +17,14 @@ action_map = action_builder.build(SchemeManager.scheme)
 actions = action_map.keys()
 actions.sort()
 
-print("actions:")
+print("Built actions successfully.\nWill use these actions:")
 pprint.pprint(actions)
 
 config_builder = ConfigBuilder()
 
 # starting_state is also exported and consumed
 starting_state = config_builder.build(SchemeManager.scheme)
-print("starting_state:")
+print("Config built successfully.\nWill use starting_state:")
 pprint.pprint(starting_state)
 
 
@@ -38,8 +38,7 @@ def compose_get_state():
 
 def compose_get_reward(data, num_classes):
     def get_reward(state):
-        reward = evaluate_model(state, data, num_classes, 1)
-        print("Got reward of {} for state\n{}".format(reward, state))
+        reward = evaluate_model(state, data, num_classes, 0)
         return reward
 
     return get_reward

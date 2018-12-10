@@ -13,7 +13,6 @@ def evaluate_model(config, data, num_classes, verbose):
         monitor='val_acc', patience=config["patience"])
 
     model = model_builder(config, num_classes)
-    print("model compiled. Now fitting...")
 
     history = model.fit(
         data.train_data,
@@ -23,8 +22,8 @@ def evaluate_model(config, data, num_classes, verbose):
         epochs=config["max_epochs"],
         verbose=verbose)
 
-    print("history.history.val_acc:\n{}".format(
-        str(history.history["val_acc"])))
+    # print("history.history.val_acc:\n{}".format(
+    #     str(history.history["val_acc"])))
     if verbose > 0:
         plot_tf_history(history, "AutoTensor/reports/model-history.png")
 

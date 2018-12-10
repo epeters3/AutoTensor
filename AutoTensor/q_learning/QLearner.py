@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import json
 
@@ -43,14 +44,14 @@ class QLearner:
         """
         Updates the q values for the current state and all its possible actions in the learner's q values table
         """
+        curr_state = self.states[state_i]
+        best_reward, best_action, best_state = -1, "no_action_selected", {}
         for action_i, action in enumerate(self.actions):
-            print("\nNow evaluating action {} ({})".format(
-                action, action_i + 1))
             curr_q = self.q_vals[state_i, action_i]
-            curr_state = self.states[state_i]
             new_state = self.get_state(curr_state, action)
-
             reward = self.get_reward(new_state)
+            print("{} ({}/{}) ==> {:.4f}".format(action, action_i + 1,
+                                                 len(self.actions), reward))
             if new_state not in self.states:
                 # Add this new found state to our records
                 self.q_vals = np.append(
@@ -68,6 +69,11 @@ class QLearner:
                 (reward + self.discount *
                  self.q_vals[new_state_i, best_action_i]) - curr_q)
             self.q_vals[state_i, action_i] = new_q
+            if reward > best_reward:
+                best_reward = reward
+                best_action = action
+                best_state = new_state
+        return best_reward, best_action, best_state
 
     def find_state_with_best_q(self):
         """
@@ -78,20 +84,19 @@ class QLearner:
         curr_best_q = -1
         curr_state_i = 0
         new_best_q = np.max(self.q_vals[curr_state_i, :])
-
+        optimal_path = []
         while new_best_q > curr_best_q:
             print("======== New iteration of QLearner ========")
-            self.__print_q_vals()
-            print("states:\n{}\nrewards:\n{}".format(self.states,
-                                                     self.rewards))
+            # self.__print_q_vals()
+            print("Optimal path so far (state, action, reward):")
+            print(optimal_path)
 
             # Update the q values for the current state (explores all actions)
-            self.__update_q(curr_state_i)
+            best_reward, best_action, next_state = self.__update_q(
+                curr_state_i)
             # Find the next optimal state
-            best_action_i = np.argmax(self.q_vals[curr_state_i])
-            best_action = self.actions[best_action_i]
             curr_state = self.states[curr_state_i]
-            next_state = self.get_state(curr_state, best_action)
+            optimal_path.append((curr_state, best_action, best_reward))
             # Update the loop values for the next iteration
             curr_best_q = new_best_q
             new_best_q = np.max(self.q_vals[curr_state_i])

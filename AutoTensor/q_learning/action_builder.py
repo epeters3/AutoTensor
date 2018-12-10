@@ -19,7 +19,6 @@ class ActionBuilder:
                 action_path, lambda _, opt=option: opt)
 
     def __add_class_actions(self, actions, action_path, node, name):
-        print("adding class actions for {}".format(name))
         new_path = action_path + [name, "args"]
         self.__build(node.args, actions, new_path, True)
 
@@ -45,7 +44,6 @@ class ActionBuilder:
                 # one of a list of options
                 self.__add_options_actions(actions, new_path, node, name)
             elif isinstance(node, ListNode):
-                print("action path at list node={}".format(new_path))
                 self.__build(node.options, actions, new_path, False)
             elif isinstance(node, ClassNode):
                 # This node represents a model parameter that is

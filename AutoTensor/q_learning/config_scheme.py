@@ -106,7 +106,6 @@ class SchemeManager:
         class_map = {}
         for name, node in a_scheme.iteritems():
             if isinstance(node, ClassNode):
-                print("{} is a ClassNode".format(name))
                 class_map[name] = node.class_ref
                 class_map.update(self.__get_class_map(node.args))
             elif isinstance(node, ListNode):

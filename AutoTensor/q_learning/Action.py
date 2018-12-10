@@ -20,7 +20,6 @@ class Action():
         :type state: {}
         :return: {}
         """
-        print("now doing at path: {}".format(str(path)))
         sub_data = state
         steps_done = 0
         for step in path[:-1]:

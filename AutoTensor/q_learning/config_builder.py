@@ -8,7 +8,6 @@ class ConfigBuilder:
         elif isinstance(node, OptionsNode):
             return node.options[node.default]
         elif isinstance(node, ClassNode):
-            print("Now building sub-config for class {}".format(name))
             return {"class_name": name, "args": self.build(node.args)}
         elif isinstance(node, ListNode):
             return [
