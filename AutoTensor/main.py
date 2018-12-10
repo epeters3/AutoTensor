@@ -6,7 +6,7 @@ import pprint
 
 from AutoTensor.q_learning.QLearner import QLearner
 from AutoTensor.q_learning.tensor_q_mapper import actions, starting_state, compose_get_state, compose_get_reward
-from AutoTensor.data_mgmt.data_loader import get_my_arff, load_json_str
+from AutoTensor.data_mgmt.data_loader import get_my_arff_dataset, get_my_mushrooms, load_json_str
 
 
 def find_optimal_model(get_dataset):
@@ -33,4 +33,4 @@ def find_optimal_model(get_dataset):
 
 
 if __name__ == "__main__":
-    find_optimal_model(get_my_arff)
+    find_optimal_model(get_my_arff_dataset)

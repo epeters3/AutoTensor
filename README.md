@@ -11,24 +11,17 @@ This project was inspired by these two bodies of work:
 
 ## Brainstorming - DELETE ME
 
-TODO: Add support for layer params, including dropout rate, and for adding and removing layers
-IDEA: Have layer param actions change all of that type
+TODO: Add support for dropout rate, and for adding and removing layers
 
 > "To find an appropriate model size, it's best to start with relatively few layers and parameters, then begin increasing the size of the layers or adding new layers until you see diminishing returns on the validation loss." - Tensorflow Documentation
 
 **Possible states (TF Keras NN Hyperparameters)**:
 
 -   In Layer Setup:
-    -   Number of layers (`int`) (maybe don't try at first, adds complexity that I still need to reason through)
     -   Layer type
         -   Dropout rate (`double`)- "The fraction of the layer's features that are being zeroed-out; it is usually set between 0.2 and 0.5"
         -   The kernel regularizer
             -   Lx regularization coefficient (`double`)
--   In Compile Setup:
-    -   Metrics
-        -   `"categorical_accuracy"`
-        -   `"mae"` - Mean absolute error
-        -   `"accuracy"`
 -   When training/fitting:
 
     -   Batch size (`int`)

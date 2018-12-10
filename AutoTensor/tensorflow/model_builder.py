@@ -46,6 +46,19 @@ def model_builder(config, num_classes):
     settings["compile_args"]["metrics"] = ["accuracy"]
     model = keras.Sequential(
         settings["layers"] +
-        [keras.layers.Dense(num_classes, activation=tf.nn.softmax)])
+        [keras.layers.Dense(num_classes, activation="softmax")])
     model.compile(**settings["compile_args"])
     return model
+
+
+# model = keras.Sequential(
+# [
+#     keras.layers.Conv2D(64, kernel_size=5, input_shape=(65,65,3), activation="relu"),
+#     keras.layers.MaxPooling2D(),
+#     keras.layers.BatchNormalization(),
+#     keras.layers.Conv2D(64, kernel_size=5, activation="relu"),
+#     keras.layers.BatchNormalization(),
+#     keras.layers.MaxPooling2D(),
+#     keras.layers.Flatten()
+# ] + settings["layers"] +
+# [keras.layers.Dense(num_classes, activation="softmax")])

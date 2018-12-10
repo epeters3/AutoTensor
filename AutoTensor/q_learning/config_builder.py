@@ -2,15 +2,18 @@ from AutoTensor.q_learning.config_scheme import *
 
 
 class ConfigBuilder:
-    def __build_item(self, node):
+    def __build_item(self, node, name):
         if isinstance(node, ValueNode):
             return node.default
         elif isinstance(node, OptionsNode):
             return node.options[node.default]
         elif isinstance(node, ClassNode):
-            return {"class_name": node.name, "args": self.build(node.args)}
+            print("Now building sub-config for class {}".format(name))
+            return {"class_name": name, "args": self.build(node.args)}
         elif isinstance(node, ListNode):
-            return [self.__build_item(node.options[node.default])]
+            return [
+                self.__build_item(node.options[node.default], node.default)
+            ]
 
     def build(self, scheme):
         """
@@ -19,9 +22,9 @@ class ConfigBuilder:
         and passed to the model_builder to build a tensorflow model.
         """
         config = {}
-        for key, node in scheme.iteritems():
+        for name, node in scheme.iteritems():
             if isinstance(node, SubScheme):
-                config[key] = self.build(node.body)
+                config[name] = self.build(node.body)
             else:
-                config[key] = self.__build_item(node)
+                config[name] = self.__build_item(node, name)
         return config
