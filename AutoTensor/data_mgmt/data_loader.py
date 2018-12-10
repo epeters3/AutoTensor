@@ -6,7 +6,7 @@ import arff
 import numpy as np
 
 from AutoTensor.data_mgmt.data_shaper import normalize
-from AutoTensor.data.mushrooms.UnpackMushrooms import unpack as unpack_mushrooms
+# from AutoTensor.data.mushrooms.UnpackMushrooms import unpack as unpack_mushrooms
 
 Data = namedtuple("Data", [
     "train_data", "train_labels", "val_data", "val_labels", "test_data",
@@ -92,18 +92,18 @@ def get_arff_dataset(file_path, test_ratio, val_ratio):
     return data, num_classes
 
 
-def get_my_mushrooms():
-    mushrooms = unpack_mushrooms()
-    image_arrays = np.array([mushroom.image_data for mushroom in mushrooms])
-    family_list = [
-        "Pluteaceae", "Boletaceae", "Cortinariaceae", "Russulaceae",
-        "Agaricaceae"
-    ]
-    labels = np.array(
-        [1 if mushroom.family in family_list else 0 for mushroom in mushrooms])
-    data = split_dataset(image_arrays, 0.15, 0.15, True, labels)
-    num_classes = data.train_labels.shape[1]
-    return data, num_classes
+# def get_my_mushrooms():
+#     mushrooms = unpack_mushrooms()
+#     image_arrays = np.array([mushroom.image_data for mushroom in mushrooms])
+#     family_list = [
+#         "Pluteaceae", "Boletaceae", "Cortinariaceae", "Russulaceae",
+#         "Agaricaceae"
+#     ]
+#     labels = np.array(
+#         [1 if mushroom.family in family_list else 0 for mushroom in mushrooms])
+#     data = split_dataset(image_arrays, 0.15, 0.15, True, labels)
+#     num_classes = data.train_labels.shape[1]
+#     return data, num_classes
 
 
 def get_my_arff_dataset():
