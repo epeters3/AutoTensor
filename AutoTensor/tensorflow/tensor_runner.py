@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 
 import numpy as np
@@ -12,8 +13,10 @@ def evaluate_model(config, data, num_classes, verbose):
     early_stop = keras.callbacks.EarlyStopping(
         monitor='val_acc', patience=config["patience"])
 
+    print("compiling...", end="")
     model = model_builder(config, num_classes)
 
+    print("fitting...", end="")
     history = model.fit(
         data.train_data,
         data.train_labels,
@@ -26,6 +29,8 @@ def evaluate_model(config, data, num_classes, verbose):
     #     str(history.history["val_acc"])))
     if verbose > 0:
         plot_tf_history(history, "AutoTensor/reports/model-history.png")
-
-    test_loss, test_acc = model.evaluate(data.test_data, data.test_labels)
+    print("testing...", end="")
+    test_loss, test_acc = model.evaluate(
+        data.test_data, data.test_labels, verbose=verbose)
+    print("done", end="")
     return test_acc
