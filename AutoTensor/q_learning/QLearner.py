@@ -2,6 +2,8 @@ from __future__ import print_function
 import numpy as np
 import json
 
+from AutoTensor.utils import print_no_nl
+
 
 class QLearner:
     def __init__(self,
@@ -49,10 +51,8 @@ class QLearner:
         for action_i, action in enumerate(self.actions):
             curr_q = self.q_vals[state_i, action_i]
             new_state = self.get_state(curr_state, action)
-            print(
-                "{} ({}/{}) ==> ".format(action, action_i + 1,
-                                         len(self.actions)),
-                end="")
+            print_no_nl("{} ({}/{}) ==> ".format(action, action_i + 1,
+                                                 len(self.actions)))
             reward = self.get_reward(new_state)
             print(" ==> {:.4f}".format(reward))
             if new_state not in self.states:

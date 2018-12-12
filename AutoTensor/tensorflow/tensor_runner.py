@@ -7,16 +7,17 @@ from tensorflow import keras
 
 from AutoTensor.plot import plot_tf_history
 from AutoTensor.tensorflow.model_builder import model_builder
+from AutoTensor.utils import print_no_nl
 
 
 def evaluate_model(config, data, num_classes, verbose):
     early_stop = keras.callbacks.EarlyStopping(
         monitor='val_acc', patience=config["patience"])
 
-    print("compiling...", end="")
+    print_no_nl("compiling...")
     model = model_builder(config, num_classes)
 
-    print("fitting...", end="")
+    print_no_nl("fitting...")
     history = model.fit(
         data.train_data,
         data.train_labels,
@@ -29,8 +30,8 @@ def evaluate_model(config, data, num_classes, verbose):
     #     str(history.history["val_acc"])))
     if verbose > 0:
         plot_tf_history(history, "AutoTensor/reports/model-history.png")
-    print("testing...", end="")
+    print_no_nl("testing...")
     test_loss, test_acc = model.evaluate(
         data.test_data, data.test_labels, verbose=verbose)
-    print("done", end="")
+    print_no_nl("done")
     return test_acc
