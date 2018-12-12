@@ -36,5 +36,6 @@ def evaluate_model(config, data, num_classes, verbose):
     print_no_nl("done")
     # Clear the Keras computation graph so we don't have overhead
     # building up after each new model.
+    # TODO: There may be a more performant way of solving this problem.
     keras.backend.clear_session()
     return test_acc

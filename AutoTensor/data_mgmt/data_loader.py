@@ -107,4 +107,4 @@ def get_arff_dataset(file_path, test_ratio, val_ratio):
 
 
 def get_my_arff_dataset():
-    return get_arff_dataset("AutoTensor/data/iris.arff", 0.15, 0.15)
+    return get_arff_dataset("AutoTensor/data/gamma.arff", 0.15, 0.15)
