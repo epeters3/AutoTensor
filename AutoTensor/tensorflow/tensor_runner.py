@@ -34,4 +34,7 @@ def evaluate_model(config, data, num_classes, verbose):
     test_loss, test_acc = model.evaluate(
         data.test_data, data.test_labels, verbose=verbose)
     print_no_nl("done")
+    # Clear the Keras computation graph so we don't have overhead
+    # building up after each new model.
+    keras.backend.clear_session()
     return test_acc
