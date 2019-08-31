@@ -27,7 +27,7 @@ def get_cli_args():
     )
     parser.add_argument(
         "--target-index",
-        "-t",
+        "-ti",
         type=int,
         default=-1,
         help=(
@@ -36,13 +36,27 @@ def get_cli_args():
             "assumed the last column is the target."
         ),
     )
+    parser.add_argument(
+        "--val-ratio",
+        "-vr",
+        type=float,
+        default=0.15,
+        help="The ratio of the dataset to use for the validation set.",
+    )
+    parser.add_argument(
+        "--test-ratio",
+        "-tr",
+        type=float,
+        default=0.15,
+        help="The ratio of the dataset to use for the holdout test set.",
+    )
     return parser.parse_args()
 
 
-def find_optimal_model(data, num_classes):
+def find_optimal_model(data):
 
     get_state = compose_get_state()
-    get_reward = compose_get_reward(data, num_classes)
+    get_reward = compose_get_reward(data)
 
     qlearner = QLearner(
         discount=0.9,
@@ -59,5 +73,7 @@ def find_optimal_model(data, num_classes):
 
 if __name__ == "__main__":
     args = get_cli_args()
-    data, num_classes = load_dataset_file(args.path, args.target_index)
-    find_optimal_model(data, num_classes)
+    data = load_dataset_file(
+        args.path, args.target_index, args.val_ratio, args.test_ratio
+    )
+    find_optimal_model(data)

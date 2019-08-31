@@ -9,13 +9,13 @@ from AutoTensor.tensorflow.model_builder import model_builder
 from AutoTensor.utils import print_no_nl
 
 
-def evaluate_model(config, data, num_classes, verbose):
+def evaluate_model(config, data, verbose):
     early_stop = keras.callbacks.EarlyStopping(
         monitor="val_acc", patience=config["patience"]
     )
 
     print_no_nl("compiling...")
-    model = model_builder(config, num_classes)
+    model = model_builder(config, data.num_classes)
 
     print_no_nl("fitting...")
     history = model.fit(

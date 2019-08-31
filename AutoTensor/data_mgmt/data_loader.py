@@ -13,18 +13,19 @@ from sklearn.model_selection import train_test_split
 from AutoTensor.data_mgmt.data_shaper import normalize
 
 
-class DataSet(NamedTuple):
+class Dataset(NamedTuple):
     train_data: pd.DataFrame
     train_labels: pd.Series
     val_data: pd.DataFrame
     val_labels: pd.Series
     test_data: pd.DataFrame
     test_labels: pd.Series
+    num_classes: int
 
 
 def prepare_dataset(
     X: pd.DataFrame, y: pd.Series, test_ratio: float, val_ratio: float
-) -> DataSet:
+) -> Dataset:
     """
     Splits data and labels into training, validation, and test sets.
     """
@@ -34,10 +35,15 @@ def prepare_dataset(
         raise ValueError("the sum of test_ratio and val_ratio must be less than 1")
 
     num_instances = X.shape[0]
+    num_classes = y.nunique()
+
     X, y = shuffle(X, y)
 
     normalizer = StandardScaler()
     X = normalizer.fit_transform(X)
+
+    # TODO: Encode all categorical labels in X, or do
+    # a one-hot-encoding
 
     # One hot encode y
     encoder = LabelEncoder()
@@ -64,24 +70,28 @@ def prepare_dataset(
         )
     )
 
-    return DataSet(
-        train_data, train_labels, val_data, val_labels, test_data, test_labels
+    return Dataset(
+        train_data,
+        train_labels,
+        val_data,
+        val_labels,
+        test_data,
+        test_labels,
+        num_classes,
     )
 
 
-def get_arff_dataset(file_path, target_index, test_ratio, val_ratio):
+def get_arff_dataset(file_path, target_index, test_ratio, val_ratio) -> Dataset:
     data_arr, _ = arff.loadarff(file_path)
     data_arr = pd.DataFrame(data_arr)
-    x_indices = [i for i in range(data_arr.shape[1]) if i != target_index]
     target_col_name = data_arr.columns[target_index]
     X = data_arr.drop(columns=target_col_name)
     y = pd.Series(data_arr[target_col_name], dtype="category")
-    data = prepare_dataset(X, y, test_ratio, val_ratio)
-    num_classes = y.nunique()
-    return data, num_classes
+    dataset = prepare_dataset(X, y, test_ratio, val_ratio)
+    return dataset
 
 
-def get_file_ext(file_path):
+def get_file_ext(file_path: str) -> str:
     file_ext_regex = r"\.[^\.]+$"
     return re.search(file_ext_regex, file_path)[0]
 
@@ -89,7 +99,8 @@ def get_file_ext(file_path):
 file_ext_to_loader = {".arff": get_arff_dataset}
 
 
-def load_dataset_file(path, target_index):
+def load_dataset_file(
+    path: str, target_index: int, val_ratio: float, test_ratio: float
+) -> Dataset:
     ext = get_file_ext(path)
-    # TODO: add test_ratio and val_ratio as CLI args
-    return file_ext_to_loader[ext](path, target_index, 0.15, 0.15)
+    return file_ext_to_loader[ext](path, target_index, val_ratio, test_ratio)
