@@ -20,12 +20,9 @@ TODO: Add support for dropout rate, and for adding and removing layers
 -   In Layer Setup:
     -   Layer type
         -   Dropout rate (`double`)- "The fraction of the layer's features that are being zeroed-out; it is usually set between 0.2 and 0.5"
-        -   The kernel regularizer
-            -   Lx regularization coefficient (`double`)
--   When training/fitting:
 
+-   When training/fitting:
     -   Batch size (`int`)
-    -   steps_per_epoch (`ing`) - "the number of training steps the model runs before it moves to the next epoch."
 
 **Data to record**:
 
