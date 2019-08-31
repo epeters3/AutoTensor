@@ -1,6 +1,4 @@
 *.pyc
 .vscode
-mushrooms/
 *.pdf
-*.txt
 AutoTensor/reports/q-learner-results.json
