@@ -27,8 +27,7 @@ def evaluate_model(config, data, verbose):
         verbose=verbose,
     )
 
-    # print("history.history.val_acc:\n{}".format(
-    #     str(history.history["val_acc"])))
+    # print(f"history.history.val_acc:\n{str(history.history['val_acc']}")
     if verbose > 0:
         plot_tf_history(history, "AutoTensor/reports/model-history.png")
     print_no_nl("testing...")

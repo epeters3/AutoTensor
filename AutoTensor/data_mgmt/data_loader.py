@@ -50,7 +50,6 @@ def prepare_dataset(
     binarizer = LabelBinarizer()
     y = encoder.fit_transform(y)
     y = binarizer.fit_transform(y)
-    print(f"one hot encoded y: {y}")
 
     rest_ratio = val_ratio + test_ratio
     train_data, rest_data, train_labels, rest_labels = train_test_split(
@@ -64,11 +63,8 @@ def prepare_dataset(
         test_size=test_ratio / rest_ratio,
     )
 
-    print(
-        "train_data[0:2]={}\ntrain_labels[0:2]={}".format(
-            train_data[0:2], train_labels[0:2]
-        )
-    )
+    print(f"train_data[0:2]={train_data[0:2]}")
+    print(f"train_labels[0:2]={train_labels[0:2]}")
 
     return Dataset(
         train_data,

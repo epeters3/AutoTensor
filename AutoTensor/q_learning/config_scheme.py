@@ -31,7 +31,7 @@ class ValueNode:
     def __init__(self, action_types, default):
         for action_type in action_types:
             if action_type not in self.actions.keys():
-                raise Exception("Invalid action_type {}".format(action_type))
+                raise Exception(f"invalid action_type {action_type}")
         self.action_types = action_types
         self.default = default
 

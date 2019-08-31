@@ -5,14 +5,16 @@ from AutoTensor.utils import print_no_nl
 
 
 class QLearner:
-    def __init__(self,
-                 discount=0.9,
-                 alpha=0.2,
-                 get_state=lambda state, action: "",
-                 get_reward=lambda state: -1,
-                 starting_state="",
-                 actions=[],
-                 report_file_path=""):
+    def __init__(
+        self,
+        discount=0.9,
+        alpha=0.2,
+        get_state=lambda state, action: "",
+        get_reward=lambda state: -1,
+        starting_state="",
+        actions=[],
+        report_file_path="",
+    ):
         # get_reward is a function that takes in a state
         # and returns that state's reward.
         self.get_reward = get_reward
@@ -35,9 +37,8 @@ class QLearner:
 
     def __print_q_vals(self):
         to_print = np.append(
-            np.reshape(self.actions, (1, len(self.actions))),
-            self.q_vals,
-            axis=0)
+            np.reshape(self.actions, (1, len(self.actions))), self.q_vals, axis=0
+        )
         print("==== Q Values ====")
         print(to_print)
 
@@ -50,14 +51,14 @@ class QLearner:
         for action_i, action in enumerate(self.actions):
             curr_q = self.q_vals[state_i, action_i]
             new_state = self.get_state(curr_state, action)
-            print_no_nl("{} ({}/{}) ==> ".format(action, action_i + 1,
-                                                 len(self.actions)))
+            print_no_nl(f"{action} ({action_i+1}/{len(self.actions)}) ==> ")
             reward = self.get_reward(new_state)
             print(" ==> {:.4f}".format(reward))
             if new_state not in self.states:
                 # Add this new found state to our records
                 self.q_vals = np.append(
-                    self.q_vals, np.zeros((1, len(self.actions))), axis=0)
+                    self.q_vals, np.zeros((1, len(self.actions))), axis=0
+                )
 
                 self.states = np.append(self.states, new_state)
                 self.rewards = np.append(self.rewards, reward)
@@ -68,8 +69,9 @@ class QLearner:
             # Finally, calculate the new Q-Value of this action state pair
             # and update it in the table
             new_q = curr_q + self.alpha * (
-                (reward + self.discount *
-                 self.q_vals[new_state_i, best_action_i]) - curr_q)
+                (reward + self.discount * self.q_vals[new_state_i, best_action_i])
+                - curr_q
+            )
             self.q_vals[state_i, action_i] = new_q
             if reward > best_reward:
                 best_reward = reward
@@ -94,8 +96,7 @@ class QLearner:
             print(optimal_path)
 
             # Update the q values for the current state (explores all actions)
-            best_reward, best_action, next_state = self.__update_q(
-                curr_state_i)
+            best_reward, best_action, next_state = self.__update_q(curr_state_i)
             # Find the next optimal state
             curr_state = self.states[curr_state_i]
             optimal_path.append((curr_state, best_action, best_reward))
@@ -103,17 +104,16 @@ class QLearner:
             curr_best_q = new_best_q
             new_best_q = np.max(self.q_vals[curr_state_i])
             if new_best_q > curr_best_q:
-                curr_state_i = np.asscalar(
-                    np.argwhere(self.states == next_state)[0])
+                curr_state_i = np.asscalar(np.argwhere(self.states == next_state)[0])
 
         print("========Finished========")
-        print("Best Q-value: {}".format(curr_best_q))
-        print("Best reward: {}".format(self.rewards[curr_state_i]))
-        print("Best state:\n{}".format(self.states[curr_state_i]))
+        print(f"Best Q-value: {curr_best_q}")
+        print(f"Best reward: {self.rewards[curr_state_i]}")
+        print(f"Best state:\n{self.states[curr_state_i]}")
         with open(self.report_file_path, "w") as f:
-            results = [{
-                "model_config": config,
-                "test_acc": reward
-            } for config, reward in zip(self.states, self.rewards)]
+            results = [
+                {"model_config": config, "test_acc": reward}
+                for config, reward in zip(self.states, self.rewards)
+            ]
             json.dump(results, f)
         return self.states[curr_state_i]
