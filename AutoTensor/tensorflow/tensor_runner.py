@@ -1,4 +1,3 @@
-from __future__ import print_function
 import json
 
 import numpy as np
@@ -12,7 +11,8 @@ from AutoTensor.utils import print_no_nl
 
 def evaluate_model(config, data, num_classes, verbose):
     early_stop = keras.callbacks.EarlyStopping(
-        monitor='val_acc', patience=config["patience"])
+        monitor="val_acc", patience=config["patience"]
+    )
 
     print_no_nl("compiling...")
     model = model_builder(config, num_classes)
@@ -24,7 +24,8 @@ def evaluate_model(config, data, num_classes, verbose):
         validation_data=(data.val_data, data.val_labels),
         callbacks=[early_stop],
         epochs=config["max_epochs"],
-        verbose=verbose)
+        verbose=verbose,
+    )
 
     # print("history.history.val_acc:\n{}".format(
     #     str(history.history["val_acc"])))
@@ -32,7 +33,8 @@ def evaluate_model(config, data, num_classes, verbose):
         plot_tf_history(history, "AutoTensor/reports/model-history.png")
     print_no_nl("testing...")
     test_loss, test_acc = model.evaluate(
-        data.test_data, data.test_labels, verbose=verbose)
+        data.test_data, data.test_labels, verbose=verbose
+    )
     print_no_nl("done")
     # Clear the Keras computation graph so we don't have overhead
     # building up after each new model.

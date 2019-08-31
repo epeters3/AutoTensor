@@ -14,7 +14,7 @@ action_builder = ActionBuilder()
 action_map = action_builder.build(SchemeManager.scheme)
 
 # actions is exported and consumed
-actions = action_map.keys()
+actions = [k for k in action_map.keys()]
 actions.sort()
 
 print("Built actions successfully.\nWill use these actions:")

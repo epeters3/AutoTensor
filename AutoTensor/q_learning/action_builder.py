@@ -33,7 +33,7 @@ class ActionBuilder:
         Traverses a config scheme and returns a dictionary of
         Action objects that can be used to alter instances of the scheme.
         """
-        for name, node in scheme.iteritems():
+        for name, node in scheme.items():
             new_path = action_path + [name] if include_path else action_path
             if isinstance(node, ValueNode):
                 # This node represents a model parameter that is

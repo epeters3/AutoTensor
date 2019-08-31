@@ -23,7 +23,7 @@ def instantiate_config(config, class_map):
         else:
 
             settings = {}
-            for key, value in config.iteritems():
+            for key, value in config.items():
                 if isinstance(value, dict):
                     settings[key] = instantiate_config(value, class_map)
                 elif isinstance(value, list):

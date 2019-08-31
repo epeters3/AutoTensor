@@ -1,4 +1,3 @@
-from __future__ import division
 import tensorflow as tf
 from tensorflow import keras
 
@@ -26,7 +25,7 @@ class ValueNode:
         "double": lambda x: max(0, x * 2),
         "halve": lambda x: max(0, x / 2),
         "int_double": lambda x: max(0, int(x * 2)),
-        "int_halve": lambda x: max(0, int(x / 2))
+        "int_halve": lambda x: max(0, int(x / 2)),
     }
 
     def __init__(self, action_types, default):
@@ -49,21 +48,31 @@ class SubScheme:
 
 
 class SchemeManager:
-    __activation = OptionsNode([
-        "sigmoid", "softmax", "elu", "selu", "softplus", "softsign", "relu",
-        "tanh", "hard_sigmoid", "linear"
-    ])
+    __activation = OptionsNode(
+        [
+            "sigmoid",
+            "softmax",
+            "elu",
+            "selu",
+            "softplus",
+            "softsign",
+            "relu",
+            "tanh",
+            "hard_sigmoid",
+            "linear",
+        ]
+    )
 
     scheme = {
-        "layers":
-        ListNode(
+        "layers": ListNode(
             {
-                "dense":
-                ClassNode(
-                    keras.layers.Dense, {
+                "dense": ClassNode(
+                    keras.layers.Dense,
+                    {
                         "activation": __activation,
-                        "units": ValueNode(["int_double", "int_halve"], 16)
-                    }),
+                        "units": ValueNode(["int_double", "int_halve"], 16),
+                    },
+                ),
                 # TODO: Add back in when adding new layers are supported actions
                 # "conv2d":
                 # ClassNode(
@@ -74,37 +83,39 @@ class SchemeManager:
                 #         "activation": __activation
                 #     }),
             },
-            "dense"),
-        "compile_args":
-        SubScheme({
-            "optimizer":
-            OptionsNode([
-                "nadam",
-                "adam",
-                "sgd",
-                "rmsprop",
-                "adagrad",
-                "adadelta",
-                "adamax",
-            ]),
-            "loss":
-            OptionsNode([
-                "categorical_crossentropy", "mean_squared_error",
-                "mean_absolute_error", "mean_absolute_percentage_error",
-                "mean_squared_logarithmic_error", "squared_hinge", "hinge",
-                "categorical_hinge", "logcosh", "binary_crossentropy",
-                "kullback_leibler_divergence", "poisson", "cosine_proximity"
-            ])
-        }),
-        "patience":
-        ValueNode(["increment", "decrement"], 1),
-        "max_epochs":
-        ValueNode(["int_double", "int_halve"], 100)
+            "dense",
+        ),
+        "compile_args": SubScheme(
+            {
+                "optimizer": OptionsNode(
+                    ["nadam", "adam", "sgd", "rmsprop", "adagrad", "adadelta", "adamax"]
+                ),
+                "loss": OptionsNode(
+                    [
+                        "categorical_crossentropy",
+                        "mean_squared_error",
+                        "mean_absolute_error",
+                        "mean_absolute_percentage_error",
+                        "mean_squared_logarithmic_error",
+                        "squared_hinge",
+                        "hinge",
+                        "categorical_hinge",
+                        "logcosh",
+                        "binary_crossentropy",
+                        "kullback_leibler_divergence",
+                        "poisson",
+                        "cosine_proximity",
+                    ]
+                ),
+            }
+        ),
+        "patience": ValueNode(["increment", "decrement"], 1),
+        "max_epochs": ValueNode(["int_double", "int_halve"], 100),
     }
 
     def __get_class_map(self, a_scheme):
         class_map = {}
-        for name, node in a_scheme.iteritems():
+        for name, node in a_scheme.items():
             if isinstance(node, ClassNode):
                 class_map[name] = node.class_ref
                 class_map.update(self.__get_class_map(node.args))
@@ -118,5 +129,5 @@ class SchemeManager:
         """
         Builds a flat map of node names to class references,
         for all classes referenced in the scheme.
-        """ 
+        """
         return self.__get_class_map(self.scheme)

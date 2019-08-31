@@ -21,7 +21,7 @@ class ConfigBuilder:
         and passed to the model_builder to build a tensorflow model.
         """
         config = {}
-        for name, node in scheme.iteritems():
+        for name, node in scheme.items():
             if isinstance(node, SubScheme):
                 config[name] = self.build(node.body)
             else:
