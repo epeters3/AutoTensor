@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 
 import tensorflow as tf
 import pprint
+import pandas as pd
 
 from AutoTensor.q_learning.QLearner import QLearner
 from AutoTensor.q_learning.tensor_q_mapper import (
@@ -11,7 +12,7 @@ from AutoTensor.q_learning.tensor_q_mapper import (
     compose_get_state,
     compose_get_reward,
 )
-from AutoTensor.data_mgmt.data_loader import load_dataset_file
+from AutoTensor.data_mgmt.data_loader import load_dataset_file, prepare_dataset
 
 
 def get_cli_args():
@@ -53,10 +54,13 @@ def get_cli_args():
     return parser.parse_args()
 
 
-def find_optimal_model(data):
+def find_optimal_model(
+    X: pd.DataFrame, y: pd.Series, val_ratio: float, test_ratio: float
+) -> None:
+    dataset = prepare_dataset(X, y, val_ratio, test_ratio)
 
     get_state = compose_get_state()
-    get_reward = compose_get_reward(data)
+    get_reward = compose_get_reward(dataset)
 
     qlearner = QLearner(
         discount=0.9,
@@ -73,7 +77,5 @@ def find_optimal_model(data):
 
 if __name__ == "__main__":
     args = get_cli_args()
-    data = load_dataset_file(
-        args.path, args.target_index, args.val_ratio, args.test_ratio
-    )
-    find_optimal_model(data)
+    X, y = load_dataset_file(args.path, args.target_index)
+    find_optimal_model(X, y, args.val_ratio, args.test_ratio)

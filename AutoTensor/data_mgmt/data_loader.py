@@ -1,7 +1,7 @@
 import json
 from collections import namedtuple
 import re
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 
 from scipy.io import arff
 import numpy as np
@@ -24,7 +24,7 @@ class Dataset(NamedTuple):
 
 
 def prepare_dataset(
-    X: pd.DataFrame, y: pd.Series, test_ratio: float, val_ratio: float
+    X: pd.DataFrame, y: pd.Series, val_ratio: float, test_ratio: float
 ) -> Dataset:
     """
     Splits data and labels into training, validation, and test sets.
@@ -77,14 +77,13 @@ def prepare_dataset(
     )
 
 
-def get_arff_dataset(file_path, target_index, test_ratio, val_ratio) -> Dataset:
+def load_arff(file_path, target_index) -> Tuple[pd.DataFrame, pd.Series]:
     data_arr, _ = arff.loadarff(file_path)
     data_arr = pd.DataFrame(data_arr)
     target_col_name = data_arr.columns[target_index]
     X = data_arr.drop(columns=target_col_name)
     y = pd.Series(data_arr[target_col_name], dtype="category")
-    dataset = prepare_dataset(X, y, test_ratio, val_ratio)
-    return dataset
+    return X, y
 
 
 def get_file_ext(file_path: str) -> str:
@@ -92,11 +91,9 @@ def get_file_ext(file_path: str) -> str:
     return re.search(file_ext_regex, file_path)[0]
 
 
-file_ext_to_loader = {".arff": get_arff_dataset}
+file_ext_to_loader = {".arff": load_arff}
 
 
-def load_dataset_file(
-    path: str, target_index: int, val_ratio: float, test_ratio: float
-) -> Dataset:
+def load_dataset_file(path: str, target_index: int) -> Tuple[pd.DataFrame, pd.Series]:
     ext = get_file_ext(path)
-    return file_ext_to_loader[ext](path, target_index, val_ratio, test_ratio)
+    return file_ext_to_loader[ext](path, target_index)
