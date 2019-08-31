@@ -57,6 +57,9 @@ def get_cli_args():
 def find_optimal_model(
     X: pd.DataFrame, y: pd.Series, val_ratio: float, test_ratio: float
 ) -> None:
+    # TODO: Support any type that the pd.DataFrame and pd.Series
+    # constructors can take, just by passing X and y through those
+    # constructors.
     dataset = prepare_dataset(X, y, val_ratio, test_ratio)
 
     get_state = compose_get_state()
