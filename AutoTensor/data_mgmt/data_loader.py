@@ -10,8 +10,6 @@ from sklearn.preprocessing import StandardScaler, LabelBinarizer, LabelEncoder
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 
-from AutoTensor.data_mgmt.data_shaper import normalize
-
 
 class Dataset(NamedTuple):
     train_data: pd.DataFrame
@@ -63,8 +61,9 @@ def prepare_dataset(
         test_size=test_ratio / rest_ratio,
     )
 
-    print(f"train_data[0:2]={train_data[0:2]}")
-    print(f"train_labels[0:2]={train_labels[0:2]}")
+    print(f"train_data.shape: {train_data.shape}")
+    print(f"val_data.shape: {val_data.shape}")
+    print(f"test_data.shape: {test_data.shape}")
 
     return Dataset(
         train_data,
