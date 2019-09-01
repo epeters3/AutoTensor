@@ -54,12 +54,9 @@ def get_cli_args():
     return parser.parse_args()
 
 
-def find_optimal_model(
+def _find_optimal_model(
     X: pd.DataFrame, y: pd.Series, val_ratio: float, test_ratio: float
 ) -> None:
-    # TODO: Support any type that the pd.DataFrame and pd.Series
-    # constructors can take, just by passing X and y through those
-    # constructors.
     dataset = prepare_dataset(X, y, val_ratio, test_ratio)
 
     get_state = compose_get_state()
@@ -78,7 +75,17 @@ def find_optimal_model(
     qlearner.find_state_with_best_q()
 
 
+def find_optimal_model(X, y, val_ratio: float, test_ratio: float) -> None:
+    """
+    Public facing wrapper function for `_find_optimal_model`. Any values for
+    `X and `y` that a pandas DataFrame or Series constructor can take are valid.
+    """
+    X = pd.DataFrame(X)
+    y = pd.Series(y)
+    _find_optimal_model(X, y, val_ratio, test_ratio)
+
+
 if __name__ == "__main__":
     args = get_cli_args()
     X, y = load_dataset_file(args.path, args.target_index)
-    find_optimal_model(X, y, args.val_ratio, args.test_ratio)
+    _find_optimal_model(X, y, args.val_ratio, args.test_ratio)
