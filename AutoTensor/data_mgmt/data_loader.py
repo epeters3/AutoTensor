@@ -35,4 +35,7 @@ file_ext_to_loader: Dict[str, Callable[[str, int], Tuple[pd.DataFrame, pd.Series
 
 def load_dataset_file(path: str, target_index: int) -> Tuple[pd.DataFrame, pd.Series]:
     ext = get_file_ext(path)
+    assert (
+        ext in file_ext_to_loader.keys()
+    ), f"We currently do not supporting loading {ext} files. We'd love for you to make a PR!"
     return file_ext_to_loader[ext](path, target_index)
