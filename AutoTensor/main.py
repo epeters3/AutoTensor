@@ -12,7 +12,8 @@ from AutoTensor.q_learning.tensor_q_mapper import (
     compose_get_state,
     compose_get_reward,
 )
-from AutoTensor.data_mgmt.data_loader import load_dataset_file, prepare_dataset
+from AutoTensor.data_mgmt.data_loader import load_dataset_file
+from AutoTensor.data_mgmt.dataset import prepare_dataset
 
 
 def get_cli_args():
